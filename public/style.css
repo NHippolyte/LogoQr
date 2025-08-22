@@ -1,0 +1,322 @@
+/* Fichier : public/style.css */
+
+/* --- Importation de polices Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* --- Styles généraux --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+    /* Styles pour le fond d'écran */
+    background-image: url('./images/Fond.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Ajoute un effet de superposition pour un meilleur contraste */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: -1;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
+
+h1 {
+    color: #00274B;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #D0D4D9;
+    padding-bottom: 15px;
+}
+
+h2 {
+    color: #00274B;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #555;
+}
+
+/* --- Logo principal --- */
+.main-logo {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* --- Formulaire d'upload --- */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.form-group {
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+input[type="file"],
+.contact-input-wrapper select,
+.contact-input-wrapper input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #99A1AA;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    color: #444;
+    background-color: #F5F8FC;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #0377db; /* Couleur principale */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #00274B; /* Couleur au survol */
+}
+
+button[type="submit"] {
+    background-color: #0377db; /* Couleur principale */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 15px rgba(3, 119, 219, 0.3);
+}
+
+button[type="submit"]:hover {
+    background-color: #00274B; /* Couleur au survol */
+    transform: translateY(-2px);
+}
+
+/* --- Carrousel --- */
+.carousel-container {
+    position: relative;
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    background: #F8F9FA;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.carousel-image {
+    min-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    font-size: 1.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev-btn {
+    left: 20px;
+}
+
+.next-btn {
+    right: 20px;
+}
+/* --- Styles pour le formulaire de contact --- */
+.contact-group {
+    margin-top: 30px;
+}
+
+.contact-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.contact-input-wrapper select,
+.contact-input-wrapper input {
+    width: 50%;
+    padding: 12px;
+    border: 1px solid #00274B;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- Styles pour la page de profil --- */
+.profile-container {
+    padding: 50px 30px;
+}
+
+.profile-logo {
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-qr {
+    max-width: 250px;
+    height: auto;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.contact-info {
+    margin-top: 30px;
+}
+
+.contact-link {
+    background-color: #0377db; /* Couleur principale */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.contact-link:hover {
+    background-color: #00274B; /* Couleur au survol */
+}
+
+/* --- Styles de la page admin --- */
+.admin-list li {
+    background-color: #F0F2F5;
+    border: 1px solid #D0D4D9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-list li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.admin-thumbnail-container {
+    display: flex;
+    gap: 15px;
+    flex-grow: 1;
+}
+
+.admin-thumbnail {
+    max-width: 150px;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid #AAB4C1;
+    border-radius: 6px;
+    padding: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.admin-info {
+    flex-grow: 2;
+    font-size: 14px;
+    color: #444;
+}
+
+.view-link {
+    background-color: #0377db; /* Couleur principale */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+}
+
+.view-link:hover {
+    background-color: #00274B; /* Couleur au survol */
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}

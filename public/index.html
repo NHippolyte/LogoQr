@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Profil</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo-title-section">
+            <img src="./images/LogFinal.png.PNG" alt="Logo de l'entreprise" class="main-logo">
+            <h1>Créez votre Logo avec QR code personnalisée</h1>
+        </div>
+        <p>Téléversez votre logo et votre code QR pour générer une page unique.</p>
+        
+        <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="logo">Logo :</label>
+                <input type="file" id="logo" name="logo" required>
+            </div>
+            <div class="form-group">
+                <label for="qr">Code QR :</label>
+                <input type="file" id="qr" name="qr" required>
+            </div>
+            <div class="form-group contact-group">
+                <label for="contact-type">Contact :</label>
+                <div class="contact-input-wrapper">
+                    <select id="contact-type" name="contact_type">
+                        <option value="">-- Sélectionner --</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="snapchat">Snapchat</option>
+                        <option value="phone">Téléphone</option>
+                        <option value="email">Email</option>
+                        <option value="link">Autre lien</option>
+                    </select>
+                    <input type="text" id="contact-value" name="contact_value" placeholder="Entrez le nom d'utilisateur, le numéro, ou l'adresse...">
+                </div>
+            </div>
+            <button type="submit">Générer la page</button>
+        </form>
+
+        <hr> 
+        <h2>Exemples de rendus</h2>
+        <div class="carousel-container">
+            <div class="carousel-track">
+                <img src="/images/IMG_6.webp" alt="Exemple de rendu 6" class="carousel-image clone">
+                <img src="/images/IMG_1.webp" alt="Exemple de rendu 1" class="carousel-image">
+                <img src="/images/IMG_2.webp" alt="Exemple de rendu 2" class="carousel-image">
+                <img src="/images/IMG_3.webp" alt="Exemple de rendu 3" class="carousel-image">
+                <img src="/images/IMG_4.webp" alt="Exemple de rendu 4" class="carousel-image">
+                <img src="/images/IMG_5.webp" alt="Exemple de rendu 5" class="carousel-image">
+                <img src="/images/IMG_6.webp" alt="Exemple de rendu 6" class="carousel-image">
+                <img src="/images/IMG_1.webp" alt="Exemple de rendu 1" class="carousel-image clone">
+            </div>
+            <button class="carousel-btn prev-btn">&lt;</button>
+            <button class="carousel-btn next-btn">&gt;</button>
+        </div>
+    </div>
+
+    <script>
+        // Le script JavaScript pour la soumission du formulaire
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    window.location.href = result.redirectUrl;
+                } else {
+                    alert('Erreur : ' + result.message);
+                }
+            } catch (error) {
+                alert('Une erreur inattendue est survenue.');
+            }
+        });
+        
+        // Script JavaScript pour le carrousel infini et dynamique
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.querySelector('.carousel-track');
+            const slides = Array.from(track.children);
+            const nextButton = document.querySelector('.next-btn');
+            const prevButton = document.querySelector('.prev-btn');
+    
+            let slideWidth = slides[0].getBoundingClientRect().width;
+            let index = 1;
+    
+            track.style.transform = `translateX(-${slideWidth * index}px)`;
+    
+            window.addEventListener('resize', () => {
+                slideWidth = slides[0].getBoundingClientRect().width;
+                track.style.transform = `translateX(-${slideWidth * index}px)`;
+            });
+    
+            nextButton.addEventListener('click', () => {
+                if (index >= slides.length - 1) return;
+                track.style.transition = 'transform 0.5s ease-in-out';
+                index++;
+                track.style.transform = `translateX(-${slideWidth * index}px)`;
+            });
+    
+            prevButton.addEventListener('click', () => {
+                if (index <= 0) return;
+                track.style.transition = 'transform 0.5s ease-in-out';
+                index--;
+                track.style.transform = `translateX(-${slideWidth * index}px)`;
+            });
+    
+            track.addEventListener('transitionend', () => {
+                if (slides[index].classList.contains('clone')) {
+                    track.style.transition = 'none';
+                    if (index === slides.length - 1) {
+                        index = 1;
+                    } else {
+                        index = slides.length - 2;
+                    }
+                    track.style.transform = `translateX(-${slideWidth * index}px)`;
+                }
+            });
+    
+            const contactTypeSelect = document.getElementById('contact-type');
+            const contactValueInput = document.getElementById('contact-value');
+    
+            contactTypeSelect.addEventListener('change', (e) => {
+                const selectedValue = e.target.value;
+                contactValueInput.value = '';
+    
+                switch (selectedValue) {
+                    case 'instagram':
+                        contactValueInput.type = 'text';
+                        contactValueInput.placeholder = 'Nom d\'utilisateur Instagram';
+                        break;
+                    case 'snapchat':
+                        contactValueInput.type = 'text';
+                        contactValueInput.placeholder = 'Nom d\'utilisateur Snapchat';
+                        break;
+                    case 'phone':
+                        contactValueInput.type = 'tel';
+                        contactValueInput.placeholder = 'Numéro de téléphone';
+                        break;
+                    case 'email':
+                        contactValueInput.type = 'email';
+                        contactValueInput.placeholder = 'Adresse email';
+                        break;
+                    case 'link':
+                        contactValueInput.type = 'url';
+                        contactValueInput.placeholder = 'Entrez un lien URL (ex: https://monsite.com)';
+                        break;
+                    default:
+                        contactValueInput.type = 'text';
+                        contactValueInput.placeholder = 'Entrez le nom d\'utilisateur, le numéro, ou l\'adresse...';
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
