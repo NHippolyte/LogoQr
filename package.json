@@ -1,4 +1,15 @@
 {
+  "name": "logo_qr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "archiver": "^7.0.1",
     "body-parser": "^2.2.0",
