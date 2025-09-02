@@ -17,11 +17,11 @@
         <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="logo">Logo :</label>
-                <input type="file" id="logo" name="logo" required>
+                <input type="file" id="logo" name="logo">
             </div>
             <div class="form-group">
                 <label for="qr">Code QR :</label>
-                <input type="file" id="qr" name="qr" required>
+                <input type="file" id="qr" name="qr">
             </div>
             <div class="form-group contact-group">
                 <label for="contact-type">Contact :</label>
@@ -39,6 +39,7 @@
             </div>
             <button type="submit">Générer la page</button>
         </form>
+        
 
         <hr> 
         <h2>Exemples de rendus</h2>
@@ -59,33 +60,8 @@
     </div>
 
     <script>
-        // Le script JavaScript pour la soumission du formulaire
-        document.getElementById('upload-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const form = e.target;
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    window.location.href = result.redirectUrl;
-                } else {
-                    alert('Erreur : ' + result.message);
-                }
-            } catch (error) {
-                alert('Une erreur inattendue est survenue.');
-            }
-        });
-        
-        // Script JavaScript pour le carrousel infini et dynamique
         document.addEventListener('DOMContentLoaded', () => {
+            // Script JavaScript pour le carrousel infini et dynamique
             const track = document.querySelector('.carousel-track');
             const slides = Array.from(track.children);
             const nextButton = document.querySelector('.next-btn');
@@ -126,7 +102,43 @@
                     track.style.transform = `translateX(-${slideWidth * index}px)`;
                 }
             });
+
+               // Gère la soumission du formulaire et la validation
+               document.getElementById('upload-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const form = e.target;
+                const formData = new FormData(form);
+
+                const logo = document.getElementById('logo').files[0];
+                const qr = document.getElementById('qr').files[0];
+                const contactValue = document.getElementById('contact-value').value;
+                const contactType = document.getElementById('contact-type').value;
+
+                if (!logo || !qr || (contactType && !contactValue)) {
+                    alert('Veuillez remplir tous les champs requis (Logo, QR et contact si sélectionné).');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        alert('Erreur : ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Une erreur inattendue est survenue.');
+                }
+            });
     
+            // Contrôle du type de champ de contact
             const contactTypeSelect = document.getElementById('contact-type');
             const contactValueInput = document.getElementById('contact-value');
     
@@ -161,6 +173,41 @@
                         break;
                 }
             });
+
+            uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            const logo = document.getElementById('logo').files[0];
+            const qr = document.getElementById('qr').files[0];
+            const contactValue = contactValueInput.value;
+            const contactType = contactTypeSelect.value;
+            
+            // Validation mise à jour
+            if (!logo || !qr || !contactValue) {
+                alert('Veuillez remplir tous les champs (Logo, QR code et Contact).');
+                return;
+            }
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    window.location.href = result.redirectUrl;
+                } else {
+                    alert('Erreur : ' + result.message);
+                }
+            } catch (error) {
+                alert('Une erreur inattendue est survenue.');
+            }
+        });
         });
     </script>
 </body>
