@@ -11,11 +11,11 @@ const port = 3007;
 
 // Configuration de la connexion à la base de données
 const db = mysql.createConnection({
-    host: mysql.railway.internal,
-    user: root,
-    password: SUKjwwjSDOaClNDmtPEXULcHPIlUcwwL,
-    database: railway,
-    port: 3306
+    host: 'mysql.railway.internal',
+    user: 'root',
+    password: 'SUKjwwjSDOaClNDmtPEXULcHPIlUcwwL',
+    database: 'railway',
+    port: '3306'
 });
 
 db.connect(err => {
