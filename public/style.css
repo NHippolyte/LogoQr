@@ -404,7 +404,7 @@ button[type="submit"]:hover {
 
 /* --- Media Queries pour les petits écrans --- */
 
-@media (max-width: 400px) {
+@media (max-width: 470px) {
     html {
         font-size: 14px; /* Réduit la taille de base pour mobile */
         min-height: 50vh;
