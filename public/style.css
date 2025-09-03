@@ -504,8 +504,8 @@ button[type="submit"]:hover {
 
     /* Carrousel */
     .carousel-container {
-        height: 11.25rem; /* 180px */
-        margin-bottom: 1.25rem; /* 20px */
+        height: 15.25rem;
+        margin-bottom: 0.25rem;
     }
 
     .carousel-btn {
