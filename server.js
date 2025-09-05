@@ -7,7 +7,7 @@ const archiver = require('archiver');
 const bodyParser = require('body-parser');
 
 const app = express();
-// const port = 3007;
+const port = 3007;
 
 // Configuration de la connexion à la base de données
 const db = mysql.createConnection({
