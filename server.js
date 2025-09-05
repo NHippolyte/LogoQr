@@ -145,6 +145,81 @@ app.post('/login', (req, res) => {
     const { username, password } = req.body;
     
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        // Redirection vers la page d'admin avec un paramètre d'authentification
+        res.redirect('/admin?auth=true');
+    } else {
+        res.status(401).send('Identifiant ou mot de passe incorrect.');
+    }
+});
+
+// Route sécurisée pour la page d'administration
+app.get('/admin', (req, res) => {
+    // On vérifie le paramètre d'authentification
+    if (req.query.auth !== 'true') {
+        return res.redirect('/login');
+    }
+
+    // Le reste du code de la route admin
+    const sql = 'SELECT * FROM profils ORDER BY created_at DESC';
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(500).send('Erreur serveur.');
+        }
+
+        let htmlContent = `
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Interface Administrateur</title>
+                <link rel="stylesheet" href="/style.css">
+            </head>
+            <body>
+                <div class="container">
+                    <img src="/images/LogFinal.png.PNG" alt="Logo de l'entreprise" class="main-logo">
+                    <h1>Commandes en attente</h1>
+                    <ul class="admin-list">
+        `;
+
+        results.forEach(profil => {
+            htmlContent += `
+                <li id="profil-${profil.id}">
+                    <p>ID: ${profil.id} (Créé le: ${profil.created_at})</p>
+                    <div class="admin-thumbnail-container">
+                        <img src="/uploads/${profil.logo_path}" alt="Logo" class="admin-thumbnail">
+                        <img src="/uploads/${profil.qr_path}" alt="QR Code" class="admin-thumbnail">
+                    </div>
+                    <div class="admin-info">
+                        <p><strong>Contact :</strong> ${profil.contact_type || 'Non spécifié'}</p>
+                        <p><strong>Valeur :</strong> ${profil.contact_value || 'Non spécifié'}</p>
+                    </div>
+                    <a href="/profil/${profil.id}" target="_blank" class="view-link">Voir la page</a>
+                    <button class="delete-btn" data-id="${profil.id}">Supprimer</button>
+                </li>
+            `;
+        });
+
+        htmlContent += `
+                    </ul>
+                </div>
+            </body>
+            <script src="/admin.js"></script>
+            </html>
+        `;
+
+        res.send(htmlContent);
+    });
+});
+
+/* // Route pour le traitement de la connexion
+app.post('/login', (req, res) => {
+    const ADMIN_USERNAME = 'TTC';
+    const ADMIN_PASSWORD = 'sticks';
+    
+    const { username, password } = req.body;
+    
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     // Redirection avec un paramètre pour l'authentification
     res.redirect('/admin?auth=true');
     } else {
@@ -205,7 +280,7 @@ app.get('/admin', checkAuth, (req, res) => {
 
         res.send(htmlContent);
     });
-});
+}); */
 
 // Route pour afficher la page de profil individuelle
 app.get('/profil/:id', (req, res) => {
